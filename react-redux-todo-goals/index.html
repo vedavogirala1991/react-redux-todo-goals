@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Udacity's Todos and Goals</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js"></script>
 </head>
 <body>
     <div>
@@ -19,32 +20,6 @@
         <ul id="goalList"></ul>
     </div>
     <script type="text/javascript">
-        //Library Code
-        function createStore(reducer) {
-            let state
-            let listeners = []
-
-            const getState = () => state
-
-            const subscribe = (listener) => {
-                listeners.push(listener)
-                return () => {
-                    listeners.filter((l) => l !== listener)
-                }
-            }
-
-            const dispatch = (action) => {
-                state = reducer(state, action)
-                listeners.forEach(listener => listener())
-            }
-
-            return {
-                getState,
-                subscribe,
-                dispatch,
-            }
-        }
-
         //App Code
 
         //Action Types
@@ -93,16 +68,11 @@
 
 
         //Creating the initial store
-        const store = createStore(app)
-
-        //Root Reducer that returns todas and goals reducers
-        function app(state = {}, action) {
-            return {
-                todos: todos(state.todos, action),
-                goals: goals(state.goals, action),
-            }
-        }
-
+        const store = Redux.createStore(Redux.combineReducers({
+            todos,
+            goals,
+        }))
+                
         //TODO's Reducer
         function todos(state = [], action) {
             switch (action.type) {
