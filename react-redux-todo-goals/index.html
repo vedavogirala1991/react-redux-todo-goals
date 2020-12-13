@@ -131,7 +131,14 @@
         }
 
         store.subscribe(() => {
-            console.log('The new state is: ', store.getState())
+            const { todos, goals } = store.getState()
+
+            document.getElementById('todoList').innerHTML = ''
+            document.getElementById('goalList').innerHTML = ''
+
+            todos.forEach(addTodoforDisplay)
+            goals.forEach(addGoalforDisplay)
+
         })
 
         //Sample Dispatches on the store
@@ -200,6 +207,23 @@
         document.getElementById('todoBtn').addEventListener('click', addTodo)
 
         document.getElementById('goalBtn').addEventListener('click', addGoal)
+
+        function addTodoforDisplay(todo) {
+            const node = document.createElement('li')
+            const text = document.createTextNode(todo.name)
+            node.appendChild(text)
+
+            document.getElementById('todoList').appendChild(node);
+        }
+
+        function addGoalforDisplay(goal) {
+            const node = document.createElement('li')
+            const text = document.createTextNode(goal.name)
+            node.appendChild(text)
+
+            document.getElementById('goalList').appendChild(node);
+        }
+
 
 
     </script>
