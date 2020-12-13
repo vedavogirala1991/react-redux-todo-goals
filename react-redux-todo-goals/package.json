@@ -1,0 +1,9 @@
+{
+  "name": "react-redux-todo-goals",
+  "version": "0.0.0",
+  "description": "react-redux-todo-goals",
+  "main": "app.js",
+  "author": {
+    "name": ""
+  }
+}
