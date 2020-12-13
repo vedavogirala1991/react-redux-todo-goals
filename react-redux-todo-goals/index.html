@@ -95,6 +95,8 @@
         }
 
         //Applying the middleware
+
+        //Validator Middleware
         const validator = (store) => (next) => (action) => {
             if (action.type === ADD_TODO &&
                 action.todo.name.toLowerCase().includes('bitcoin')) {
@@ -107,13 +109,25 @@
             }
 
             return next(action)
-        }  
+        } 
+
+        //Logger Middleware
+        const logger = (store) => (next) => (action) => {
+
+            console.group(action.type)
+            console.log('The action: ', action)
+            const result = next(action)
+            console.log('The new state: ', store.getState)
+            console.groupEnd()
+
+            return result
+        }
 
         //Creating the initial store
         const store = Redux.createStore(Redux.combineReducers({
             todos,
             goals,
-        }),Redux.applyMiddleware(validator))
+        }),Redux.applyMiddleware(validator,logger))
 
         store.subscribe(() => {
             const { todos, goals } = store.getState()
