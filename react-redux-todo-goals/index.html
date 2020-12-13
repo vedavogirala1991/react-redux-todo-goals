@@ -4,7 +4,21 @@
 <head>
     <meta charset="utf-8" />
     <title>Udacity's Todos and Goals</title>
-    <script type="text/javascript" >
+</head>
+<body>
+    <div>
+        <h1>Todo List</h1>
+        <input id="todo" type="text" placeholder="Add Todo" />
+        <button id="todoBtn">Add Todo</button>
+        <ul id="todoList"></ul>
+    </div>
+    <div>
+        <h1>Goal List</h1>
+        <input id="goal" type="text" placeholder="Add Goal" />
+        <button id="goalBtn">Add Goal</button>
+        <ul id="goalList"></ul>
+    </div>
+    <script type="text/javascript">
         //Library Code
         function createStore(reducer) {
             let state
@@ -116,8 +130,12 @@
             }
         }
 
+        store.subscribe(() => {
+            console.log('The new state is: ', store.getState())
+        })
 
         //Sample Dispatches on the store
+        /*
         store.dispatch(addTodoAction({
             id: 0,
             name: 'Walk the dog',
@@ -150,22 +168,40 @@
             name: 'Lose 20 pounds'
         }))
 
-        store.dispatch(removeGoalAction(0))
+        store.dispatch(removeGoalAction(0))*/
+
+        function addTodo() {
+            const input = document.getElementById('todo')
+            const name = input.value
+            input.value = ''
+
+            store.dispatch(addTodoAction({
+                id: generateId(),
+                name,
+                complete: false,
+            }))
+        }
+
+        function addGoal() {
+            const input = document.getElementById('goal')
+            const name = input.value
+            input.value = ''
+
+            store.dispatch(addGoalAction({
+                id: generateId(),
+                name,
+            }))
+        }
+
+        function generateId() {
+            return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36)
+        }
+
+        document.getElementById('todoBtn').addEventListener('click', addTodo)
+
+        document.getElementById('goalBtn').addEventListener('click', addGoal)
+
 
     </script>
-</head>
-<body>
-    <div>
-        <h1>Todo List</h1>
-        <input id="todo" type="text" placeholder="Add Todo" />
-        <button id="todoBtn">Add Todo</button>
-        <ul id="todoList"></ul>
-    </div>
-    <div>
-        <h1>Goal List</h1>
-        <input id="goal" type="text" placeholder="Add Goal" />
-        <button id="goalBtn">Add Goal</button>
-        <ul id="goalList"></ul>
-    </div>
 </body>
 </html>
