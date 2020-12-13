@@ -31,69 +31,43 @@
 
 
         //Action Creators
-        function addTodoAction(todo) {
+        const addTodoAction = (todo) => {
             return {
                 type: ADD_TODO,
                 todo,
             }
         }
 
-        function removeTodoAction(id) {
+        const removeTodoAction = (id) => {
             return {
                 type: REMOVE_TODO,
                 id,
             }
         }
 
-        function toggleTodoAction(id) {
+        const toggleTodoAction = (id) => {
             return {
                 type: TOGGLE_TODO,
                 id,
             }
         }
 
-        function addGoalAction(goal) {
+        const addGoalAction = (goal) => {
             return {
                 type: ADD_GOAL,
                 goal,
             }
         }
 
-        function removeGoalAction(id) {
+        const removeGoalAction = (id) => {
             return {
                 type: REMOVE_GOAL,
                 id,
             }
         }
 
-
-        //Creating the initial store
-        const store = Redux.createStore(Redux.combineReducers({
-            todos,
-            goals,
-        }),Redux.applyMiddleware(validator))
-
-        //Applying the middleware
-        function validator(store) {
-            return function (next) {
-                return function (action) {
-                    if (action.type === ADD_TODO &&
-                        action.todo.name.toLowerCase().includes('bitcoin')) {
-                        return alert('No!! This is a Bad Idea.')
-                    }
-
-                    if (action.type === ADD_GOAL &&
-                        action.goal.name.toLowerCase().includes('bitcoin')) {
-                        return alert('No!! This is a Bad Idea.')
-                    }
-
-                    return next(action)
-                }
-            }
-        }
-                
         //TODO's Reducer
-        function todos(state = [], action) {
+        const todos = (state = [], action) => {
             switch (action.type) {
                 case ADD_TODO:
                     return state.concat([action.todo])
@@ -107,8 +81,9 @@
             }
         }
 
+
         //Goals Reducer
-        function goals(state = [], action) {
+        const goals = (state = [], action) => {
             switch (action.type) {
                 case ADD_GOAL:
                     return state.concat([action.goal])
@@ -118,6 +93,27 @@
                     return state
             }
         }
+
+        //Applying the middleware
+        const validator = (store) => (next) => (action) => {
+            if (action.type === ADD_TODO &&
+                action.todo.name.toLowerCase().includes('bitcoin')) {
+                return alert('No!! This is a Bad Idea.')
+            }
+
+            if (action.type === ADD_GOAL &&
+                action.goal.name.toLowerCase().includes('bitcoin')) {
+                return alert('No!! This is a Bad Idea.')
+            }
+
+            return next(action)
+        }  
+
+        //Creating the initial store
+        const store = Redux.createStore(Redux.combineReducers({
+            todos,
+            goals,
+        }),Redux.applyMiddleware(validator))
 
         store.subscribe(() => {
             const { todos, goals } = store.getState()
@@ -131,7 +127,7 @@
         })
 
         
-        function addTodo() {
+        const addTodo = () => {
             const input = document.getElementById('todo')
             const name = input.value
             input.value = ''
@@ -143,7 +139,7 @@
             }))
         }
 
-        function addGoal() {
+        const addGoal = () => {
             const input = document.getElementById('goal')
             const name = input.value
             input.value = ''
@@ -154,7 +150,7 @@
             }))
         }
 
-        function generateId() {
+        const generateId = () => {
             return Math.random().toString(36).substring(2) + (new Date()).getTime().toString(36)
         }
 
@@ -162,7 +158,7 @@
 
         document.getElementById('goalBtn').addEventListener('click', addGoal)
 
-        function addTodoforDisplay(todo) {
+        const addTodoforDisplay = (todo) => {
             const node = document.createElement('li')
             const text = document.createTextNode(todo.name)
             const removeButton = createRemoveButton(() => {
@@ -180,7 +176,7 @@
             document.getElementById('todoList').appendChild(node);
         }
 
-        function addGoalforDisplay(goal) {
+        const addGoalforDisplay = (goal) => {
             const node = document.createElement('li')
             const text = document.createTextNode(goal.name)
             const removeButton = createRemoveButton(() => {
@@ -193,7 +189,7 @@
             document.getElementById('goalList').appendChild(node);
         }
 
-        function createRemoveButton(onClick) {
+        const createRemoveButton = (onClick) => {
             const removeButton = document.createElement('button')
             removeButton.innerHTML = 'X'
             removeButton.addEventListener('click', onClick)
