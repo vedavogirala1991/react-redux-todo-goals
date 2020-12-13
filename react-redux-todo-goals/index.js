@@ -20,13 +20,24 @@ function createStore(reducer) {
     return {
         getState,
         subscribe,
-        dispatch
+        dispatch,
     }
 }
 
 //App Code
-const store = createStore(todos)
 
+//Creating the initial store
+const store = createStore(app)
+
+//Root Reducer that returns todas and goals reducers
+function app(state = {}, action) {
+    return {
+        todos: todos(state.todos, action),
+        goals: goals(state.goals,action),
+    }
+}
+
+//TODO's Reducer
 function todos (state = [], action) {
         switch (action.type) {
         case 'ADD_TODO':
@@ -41,6 +52,7 @@ function todos (state = [], action) {
     }
 }
 
+//Goals Reducer
 function goals (state = [], action) {
     switch (action.type) {
         case 'ADD_GOAL':
