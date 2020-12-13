@@ -216,7 +216,7 @@
 
     </script>
     <script type="text/babel">
-      List = (props) => {
+      function List (props) {
         return (
           <ul>
             <li>LIST</li>
@@ -227,7 +227,10 @@
       class Todos extends React.Component {
         render() {
           return (
-            <div>TODOS</div>
+            <div>
+              TODOS
+              <List/>
+            </div>
           )
         }
       }
@@ -235,7 +238,10 @@
       class Goals extends React.Component {
         render() {
           return (
-            <div>GOALS</div>
+            <div>
+              GOALS
+              <List/>
+            </div>
           )
         }
       }
