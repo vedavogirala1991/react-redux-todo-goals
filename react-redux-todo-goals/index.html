@@ -123,7 +123,7 @@
 
           return API.deleteGoal(goal.id)
           .catch(() => {
-            this.props.store.dispatch(addGoalAction(goal))
+            dispatch(addGoalAction(goal))
             alert('An error occurred. Try again.')
           })
         }
@@ -240,9 +240,9 @@
         render () {
           return (
             <Context.Consumer>
-              {(store) => {
+              {(store) => (
                 <App store={store}/>
-              }}
+              )}
             </Context.Consumer>
           )
         }
