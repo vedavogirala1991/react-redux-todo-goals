@@ -129,6 +129,17 @@
         }
       }
 
+      const handleRecieveData = () => {
+        return (dispatch) => {
+          Promise.all([
+            API.fetchTodos(),
+            API.fetchGoals()
+          ]).then(([todos, goals]) => {
+            dispatch(recieveDataAction(todos,goals))
+          })
+        }
+      }
+
       //Todos Reducer
       const todos = (state = [], action) => {
         switch (action.type) {
@@ -301,18 +312,9 @@
       class App extends React.Component {
         componentDidMount () {
           const {store} = this.props
-
-          Promise.all([
-            API.fetchTodos(),
-            API.fetchGoals()
-          ]).then(([todos, goals]) => {
-            store.dispatch(recieveDataAction(todos,goals))
-          })
-
+          this.props.store.dispatch(handleRecieveData())
           store.subscribe(() => this.forceUpdate())
         }
-
-
 
         render() {
           const {store} = this.props
