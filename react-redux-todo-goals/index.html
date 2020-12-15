@@ -225,8 +225,6 @@
 
     <script type="text/babel">
 
-      const Context = React.createContext()
-
       const ConnectedApp = ReactRedux.connect((state) => ({
         loading: state.loading
       }))(App)
@@ -327,16 +325,12 @@
 
       class App extends React.Component {
         componentDidMount () {
-          const {store} = this.props
-          this.props.store.dispatch(handleRecieveData())
-          store.subscribe(() => this.forceUpdate())
+          this.props.dispatch(handleRecieveData())
         }
 
         render() {
-          const {store} = this.props
-          const {loading} = store.getState()
 
-          if(loading){
+          if(this.props.loading){
             return <h2>Loading...</h2>
           }
           return (
